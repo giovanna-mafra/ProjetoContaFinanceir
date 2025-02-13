@@ -35,6 +35,7 @@ class Sistema {
         System.out.print("Defina uma senha: ");
         String senha = scanner.nextLine();
 
+
         System.out.println("Escolha o tipo de conta: \n 1 - Conta Corrente \n 2 - Conta Poupança ");
 
         int tipoConta = scanner.nextInt();
@@ -47,7 +48,7 @@ class Sistema {
             conta = new ContaPoupanca(0);
         }
 
-        usuarios.add(new Usuario(idUsuario++, nome, email, senha));
+        usuarios.add(new Usuario(idUsuario++, nome, email, senha, conta));
         System.out.println("Usuário criado com sucesso!");
 
     }

@@ -1,8 +1,12 @@
 package Conta;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Transacao {
     private int id;
     private double valor;
+    private LocalDateTime dtHora;
     private String tipo;
     private Usuario usuario;
     private Categoria categoria;
@@ -13,13 +17,14 @@ public class Transacao {
         this.tipo = tipo;
         this.usuario = usuario;
         this.categoria = categoria;
+        this.dtHora = LocalDateTime.now();
         processarTransacao();
     }
 
     public void processarTransacao() {
-        if(tipo.equals("Receita")) {
+        if(tipo.equalsIgnoreCase("Receita")) {
             usuario.getConta().adicionarSaldo(valor);
-        } else if (tipo.equals("Receita")) {
+        } else if (tipo.equalsIgnoreCase("despesa")) {
             usuario.getConta().debitarSaldo(valor);
         }
 
@@ -68,12 +73,14 @@ public class Transacao {
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         return "Transacao{" +
                 "id=" + id +
                 ", valor=" + valor +
                 ", tipo='" + tipo + '\'' +
                 ", usuario=" + usuario.getNome() +
                 ", categoria=" + categoria.getTipo() +
-                ", conta = " + usuario.getConta() + "}";
+                ", categoria=" + categoria.getTipo() +
+                tipo + " de R$" + valor + " em " + dtHora.format(formatter)+ "}";
     }
 }

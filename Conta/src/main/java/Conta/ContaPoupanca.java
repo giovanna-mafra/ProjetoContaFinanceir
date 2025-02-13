@@ -1,10 +1,16 @@
 package Conta;
 
-public class ContaPoupanca extends Conta{
+public class ContaPoupanca implements Conta {
+    private double saldo;
     private static final double RENDIMENTO = 0.02;
 
-    public ContaPoupanca ( double saldoInicial) {
-        super(saldoInicial);
+    public ContaPoupanca (double saldoInicial) {
+        this.saldo = saldoInicial;
+    }
+
+    @Override
+    public double getSaldo() {
+        return saldo;
     }
 
     @Override
@@ -17,8 +23,13 @@ public class ContaPoupanca extends Conta{
      if(saldo>= valor) {
          saldo -= valor;
      } else{
-         System.out.println("Saldo insuficiente na conta poupança!");
+         System.out.println("Saldo na Conta Poupança insuficiente!");
      }
+    }
+
+    @Override
+    public String toString() {
+        return "ContaPoupança com saldo de R$ " + saldo ;
     }
 
 }

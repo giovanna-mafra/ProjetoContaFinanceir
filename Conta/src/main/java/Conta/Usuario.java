@@ -1,17 +1,23 @@
 package Conta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Usuario implements RetornarTexto {
    private int id;
    private String nome;
    private String email;
    private String senha;
    private Conta conta;
+   private List<Transacao> transacoes;
 
-   public Usuario(int id, String nome, String email,String senha){
+   public Usuario(int id, String nome, String email, String senha, Conta conta){
       this.id = id;
       this.nome = nome;
       this.email = email;
       this.senha = senha;
+      this.conta = conta;
+      this.transacoes = new ArrayList<>();
 
    }
 
