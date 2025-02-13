@@ -34,15 +34,29 @@ class Sistema {
         String email = scanner.nextLine();
         System.out.print("Defina uma senha: ");
         String senha = scanner.nextLine();
+
+        System.out.println("Escolha o tipo de conta: \n 1 - Conta Corrente \n 2 - Conta Poupança ");
+
+        int tipoConta = scanner.nextInt();
+
+        Conta conta;
+
+        if (tipoConta == 1) {
+            conta = new ContaCorrente(0);
+        } else {
+            conta = new ContaPoupanca(0);
+        }
+
         usuarios.add(new Usuario(idUsuario++, nome, email, senha));
         System.out.println("Usuário criado com sucesso!");
+
     }
 
     private void criarCategoria() {
         System.out.print("Nome da categoria: ");
         String nome = scanner.nextLine();
         categorias.add(new Categoria(idCategoria++, nome));
-        System.out.println("Conta.Categoria criada com sucesso!");
+        System.out.println("Categoria criada com sucesso!");
     }
 
     private void criarTransacao() {

@@ -5,6 +5,7 @@ public class Usuario implements RetornarTexto {
    private String nome;
    private String email;
    private String senha;
+   private Conta conta;
 
    public Usuario(int id, String nome, String email,String senha){
       this.id = id;
@@ -24,6 +25,10 @@ public class Usuario implements RetornarTexto {
 
    public String getEmail(){
       return email;
+   }
+
+   public Conta getConta() {
+      return conta;
    }
 
    public boolean verificarSenha(String senhaDigitada){

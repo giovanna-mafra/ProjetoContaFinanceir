@@ -20,7 +20,7 @@ public class Categoria {
 
     @Override
     public String toString() {
-        return "ID: " + id + ", Conta.Categoria:" + tipo;
+        return "ID: " + id + ", Categoria:" + tipo;
     }
 
 

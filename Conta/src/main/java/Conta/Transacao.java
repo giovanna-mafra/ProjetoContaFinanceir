@@ -13,9 +13,15 @@ public class Transacao {
         this.tipo = tipo;
         this.usuario = usuario;
         this.categoria = categoria;
+        processarTransacao();
     }
 
-    public Transacao() {
+    public void processarTransacao() {
+        if(tipo.equals("Receita")) {
+            usuario.getConta().adicionarSaldo(valor);
+        } else if (tipo.equals("Receita")) {
+            usuario.getConta().debitarSaldo(valor);
+        }
 
     }
 
@@ -66,8 +72,8 @@ public class Transacao {
                 "id=" + id +
                 ", valor=" + valor +
                 ", tipo='" + tipo + '\'' +
-                ", usuario=" + usuario +
-                ", categoria=" + categoria +
-                '}';
+                ", usuario=" + usuario.getNome() +
+                ", categoria=" + categoria.getTipo() +
+                ", conta = " + usuario.getConta() + "}";
     }
 }
