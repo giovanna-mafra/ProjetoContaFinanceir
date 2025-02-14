@@ -107,7 +107,7 @@ class Sistema {
         Categoria categoria = categorias.stream().filter(c -> c.getId() == idCategoria).findFirst().orElse(null);
 
         if (categoria != null) {
-            transacoes.add(new Transacao(idTransacao++, valor, tipo, usuario, categoria));
+            Transacao transacao = new Transacao(idTransacao++, valor, tipo, usuario, categoria);
             transacoes.add(transacao);
             atualizarSaldoUsuario(usuario, transacao);
             System.out.println("Transação criada com sucesso!");
@@ -116,7 +116,7 @@ class Sistema {
         }
     }
 
-    private void atualizarSaldoUsuario() {
+    private void atualizarSaldoUsuario(Usuario usuario, Transacao transacao) {
         if (transacao.getTipo().equalsIgnoreCase("Receita")) {
             usuario.getConta().adicionarSaldo(transacao.getValor());
         }
@@ -128,6 +128,7 @@ class Sistema {
     }
 
     private void listarTransacoes() {
+        double SaldoAtual = 0;
         if (transacoes.isEmpty()) {
             System.out.println("Nenhuma transação cadastrada.");
         } else {
