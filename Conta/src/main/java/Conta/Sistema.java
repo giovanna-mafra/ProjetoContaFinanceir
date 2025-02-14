@@ -21,7 +21,8 @@ class Sistema {
                 case 2: criarCategoria(); break;
                 case 3: criarTransacao(); break;
                 case 4: listarTransacoes(); break;
-                case 5: System.out.println("Saindo..."); return;
+                case 5: excluir(); break;
+                case 6: System.out.println("Saindo..."); return;
                 default: System.out.println("Opção inválida.");
             }
         }
@@ -150,4 +151,116 @@ class Sistema {
         }
         return saldoAtual;
     }
+
+    private void excluir() {
+        System.out.println("\n Selecione a opção para excluir: " );
+        System.out.println("1 - Excluir Usuário");
+        System.out.println("2 - Excluir Categoria");
+        System.out.println("3 - Excluir Transação");
+
+        int opcaoExcluir = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcaoExcluir) {
+            case 1: excluirUsuario(); break;
+            case 2: excluirCategoria(); break;
+            case 3: excluirTransacao(); break;
+            default:
+                System.out.println("Opção inválida!");
+        }
+    }
+
+    private void excluirUsuario() {
+        System.out.println("Digite o ID do usuário a ser excluído: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Usuario usuario = null;
+
+        for(Usuario u : usuarios) {
+            if(u.getId() == id) {
+                usuario = u;
+                break;
+            }
+        }
+
+        if (usuario != null) {
+            System.out.println("Usuário encontrado: " + usuario);
+            System.out.println("Deseja excluir esse usuário? (S/N)");
+            String confirm = scanner.nextLine();
+
+            if(confirm.equalsIgnoreCase("S")) {
+                usuarios.remove(usuario);
+                System.out.println("Usuário excluído com sucesso!");
+            } else{
+                System.out.println("Operação cancelada");
+            }
+
+        } else{
+            System.out.println("Usuário não encontrado!");
+        }
+    }
+
+    private void excluirCategoria() {
+        System.out.println("Digite o ID da categoria a ser excluída: " );
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Categoria categoria = null;
+
+        for(Categoria c : categorias) {
+            if(c.getId() == id) {
+                categoria = c;
+                break;
+            }
+        }
+
+        if (categoria != null) {
+            System.out.println("Categoria encontrada: " + categoria);
+            System.out.println("Deseja excluir essa categoria? (S/N)");
+            String confirm = scanner.nextLine();
+
+            if(confirm.equalsIgnoreCase("S")) {
+                categorias.remove(categoria);
+                System.out.println("Categoria excluída com sucesso!");
+            } else{
+                System.out.println("Operação cancelada");
+            }
+
+        } else{
+            System.out.println("Categoria não encontrada!");
+        }
+    }
+
+    private void excluirTransacao() {
+        System.out.println("Digite o ID da transação a ser excluída: " );
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Transacao transacao = null;
+
+        for(Transacao t : transacoes) {
+            if(t.getId() == id) {
+                transacao = t;
+                break;
+            }
+        }
+
+        if (transacao != null) {
+            System.out.println("Transação encontrada: " + transacao);
+            System.out.println("Deseja excluir essa transação? (S/N)");
+            String confirm = scanner.nextLine();
+
+            if(confirm.equalsIgnoreCase("S")) {
+                categorias.remove(transacao);
+                System.out.println("Transação excluída com sucesso!");
+            } else{
+                System.out.println("Operação cancelada");
+            }
+
+        } else{
+            System.out.println("Transação não encontrada!");
+        }
+    }
+
 }
