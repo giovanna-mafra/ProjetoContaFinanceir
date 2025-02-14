@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 public class Transacao {
     private int id;
     private double valor;
-    private LocalDateTime dtHora;
     private String tipo;
     private Usuario usuario;
     private Categoria categoria;
@@ -17,7 +16,6 @@ public class Transacao {
         this.tipo = tipo;
         this.usuario = usuario;
         this.categoria = categoria;
-        this.dtHora = LocalDateTime.now();
         processarTransacao();
     }
 
@@ -80,7 +78,6 @@ public class Transacao {
                 ", tipo='" + tipo + '\'' +
                 ", usuario=" + usuario.getNome() +
                 ", categoria=" + categoria.getTipo() +
-                ", categoria=" + categoria.getTipo() +
-                tipo + " de R$" + valor + " em " + dtHora.format(formatter)+ "}";
+                 "}";
     }
 }

@@ -42,6 +42,8 @@ public class Usuario implements RetornarTexto {
    }
 
 
+
+
    @Override
    public String toString() {
       return "ID: " + id + ", NOME:" + nome + ", Email " + email;
