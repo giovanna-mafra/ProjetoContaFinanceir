@@ -252,7 +252,7 @@ class Sistema {
             String confirm = scanner.nextLine();
 
             if(confirm.equalsIgnoreCase("S")) {
-                categorias.remove(transacao);
+                transacoes.remove(transacao);
                 System.out.println("Transação excluída com sucesso!");
             } else{
                 System.out.println("Operação cancelada");
