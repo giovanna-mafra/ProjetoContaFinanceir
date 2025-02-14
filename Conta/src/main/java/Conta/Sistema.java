@@ -128,7 +128,7 @@ class Sistema {
     }
 
     private void listarTransacoes() {
-        double SaldoAtual = 0;
+        double saldoAtual = 0.0;
         if (transacoes.isEmpty()) {
             System.out.println("Nenhuma transação cadastrada.");
         } else {
@@ -141,7 +141,7 @@ class Sistema {
 
     }
 
-    private double atualizarSaldoListagem(double saldoAtual, Transacao transacao) {
+    private double atualizarSaldoLista(double saldoAtual, Transacao transacao) {
         if (transacao.getTipo().equalsIgnoreCase("Receita")) {
             saldoAtual += transacao.getValor();
         }
