@@ -108,9 +108,22 @@ class Sistema {
 
         if (categoria != null) {
             transacoes.add(new Transacao(idTransacao++, valor, tipo, usuario, categoria));
+            transacoes.add(transacao);
+            atualizarSaldoUsuario(usuario, transacao);
             System.out.println("Transação criada com sucesso!");
-        } else {
+            } else {
             System.out.println("Categoria inválida.");
+        }
+    }
+
+    private void atualizarSaldoUsuario() {
+        if (transacao.getTipo().equalsIgnoreCase("Receita")) {
+            usuario.getConta().adicionarSaldo(transacao.getValor());
+        }
+        else if (transacao.getTipo().equalsIgnoreCase("Despesa")){
+             {
+                usuario.getConta().debitarSaldo(transacao.getValor());
+            }
         }
     }
 
@@ -118,8 +131,22 @@ class Sistema {
         if (transacoes.isEmpty()) {
             System.out.println("Nenhuma transação cadastrada.");
         } else {
-            transacoes.forEach(System.out::println);
+            for (Transacao transacao : transacoes) {
+                System.out.println(transacao);
+                saldoAtual = atualizarSaldoLista(saldoAtual, transacao);
+                System.out.println("Saldo atual: R$ " + saldoAtual);
+            }
         }
 
+    }
+
+    private double atualizarSaldoListagem(double saldoAtual, Transacao transacao) {
+        if (transacao.getTipo().equalsIgnoreCase("Receita")) {
+            saldoAtual += transacao.getValor();
+        }
+        else if (transacao.getTipo().equalsIgnoreCase("Despesa")) {
+            saldoAtual -= transacao.getValor();
+        }
+        return saldoAtual;
     }
 }

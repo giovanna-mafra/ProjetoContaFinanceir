@@ -9,6 +9,7 @@ public class Transacao {
     private String tipo;
     private Usuario usuario;
     private Categoria categoria;
+    private LocalDateTime dtHora;
 
     public Transacao(int id, double valor, String tipo, Usuario usuario, Categoria categoria){
         this.id = id;
@@ -16,6 +17,7 @@ public class Transacao {
         this.tipo = tipo;
         this.usuario = usuario;
         this.categoria = categoria;
+        this.dtHora = LocalDateTime.now();
         processarTransacao();
     }
 
@@ -25,6 +27,8 @@ public class Transacao {
         } else if (tipo.equalsIgnoreCase("despesa")) {
             usuario.getConta().debitarSaldo(valor);
         }
+
+        System.out.println("Saldo atual de " + usuario.getNome() + ": R$ " + usuario.getConta().getSaldo());
 
     }
 
@@ -78,6 +82,7 @@ public class Transacao {
                 ", tipo='" + tipo + '\'' +
                 ", usuario=" + usuario.getNome() +
                 ", categoria=" + categoria.getTipo() +
+                ", dataHora: " + dtHora.format(formatter) +
                  "}";
     }
 }

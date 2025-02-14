@@ -41,6 +41,10 @@ public class Usuario implements RetornarTexto {
       return this.senha.equals(senhaDigitada);
    }
 
+   public void adicionarTransacao (Transacao transacao) {
+      transacoes.add(transacao);
+   }
+
 
 
 
