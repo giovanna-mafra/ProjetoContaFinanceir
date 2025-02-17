@@ -13,7 +13,7 @@ class Sistema {
 
     public void menu() {
         while (true) {
-            System.out.println("\n1. Criar Usuário\n2. Criar Categoria\n3. Criar Transação\n4. Listar Transações\n5. Sair");
+            System.out.println("\n1. Criar Usuário\n2. Criar Categoria\n3. Criar Transação\n4. Listar Transações\n6. Excluir\n7. Sair");
             int opcao = scanner.nextInt();
             scanner.nextLine();
             switch (opcao) {
