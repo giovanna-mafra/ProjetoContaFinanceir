@@ -1,4 +1,5 @@
-package Conta;
+package Conta.contas;
+import Conta.strategy.StrategyConta;
 
 public class Conta {
     protected StrategyConta strategyConta;

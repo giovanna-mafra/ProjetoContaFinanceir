@@ -1,6 +1,5 @@
-package Conta;
+package Conta.strategy;
 
-// Estratégia para Conta Corrente
 public class StrategyContaCorrente implements StrategyConta {
     private double saldo;
 

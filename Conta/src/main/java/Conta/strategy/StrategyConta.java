@@ -1,4 +1,4 @@
-package Conta;
+package Conta.strategy;
 
 public interface StrategyConta {
     void adicionarSaldo(double valor);

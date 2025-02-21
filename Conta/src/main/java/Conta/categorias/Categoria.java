@@ -1,4 +1,4 @@
-package Conta;
+package Conta.categorias;
 
 public class Categoria {
     private int id;

@@ -1,4 +1,4 @@
-package Conta;
+package Conta.strategy;
 
 public class StrategyContaPoupanca implements StrategyConta {
     private double saldo;

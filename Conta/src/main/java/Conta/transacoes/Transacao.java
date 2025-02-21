@@ -1,4 +1,8 @@
-package Conta;
+package Conta.transacoes;
+
+import Conta.contas.ContaCorrente;
+import Conta.usuarios.Usuario;
+import Conta.categorias.Categoria;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

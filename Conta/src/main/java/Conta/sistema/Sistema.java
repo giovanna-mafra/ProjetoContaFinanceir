@@ -1,4 +1,12 @@
-package Conta;
+package Conta.sistema;
+
+import Conta.usuarios.Usuario;
+
+import Conta.categorias.Categoria;
+import Conta.contas.Conta;
+import Conta.transacoes.Transacao;
+import Conta.strategy.StrategyContaCorrente;
+import Conta.strategy.StrategyContaPoupanca;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,9 +76,7 @@ public class Sistema {
         String email = scanner.nextLine();
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
-        System.out.print("Saldo inicial da conta: ");
-        double saldoInicial = scanner.nextDouble();
-        scanner.nextLine();
+
 
         System.out.println("Escolha o tipo de conta:");
         System.out.println("1. Conta Corrente");
@@ -79,14 +85,18 @@ public class Sistema {
         int tipoConta = scanner.nextInt();
         scanner.nextLine();
 
+        System.out.print("Saldo inicial da conta: ");
+        double saldoInicial = scanner.nextDouble();
+        scanner.nextLine();
+
         Conta conta = null;
         if (tipoConta == 1) {
-            conta = new Conta(new StrategyContaCorrente(saldoInicial)); // Conta Corrente
+            conta = new Conta(new StrategyContaCorrente(saldoInicial));
         } else if (tipoConta == 2) {
-            conta = new Conta(new StrategyContaPoupanca(saldoInicial)); // Conta Poupança
+            conta = new Conta(new StrategyContaPoupanca(saldoInicial));
         } else {
             System.out.println("Opção inválida! Conta Corrente será selecionada por padrão.");
-            conta = new Conta(new StrategyContaCorrente(saldoInicial)); // Conta Corrente por padrão
+            conta = new Conta(new StrategyContaCorrente(saldoInicial));
         }
 
         Usuario usuario = new Usuario(usuarios.size() + 1, nome, email, senha, conta);
@@ -116,24 +126,31 @@ public class Sistema {
         int idUsuario = scanner.nextInt();
         scanner.nextLine();
 
-        Usuario usuario = usuarios.stream()
-                .filter(u -> u.getId() == idUsuario)
-                .findFirst()
-                .orElse(null);
+        Usuario usuario = null;
+        for (Usuario u : usuarios) {
+            if (u.getId() == idUsuario) {
+                usuario = u;
+                break;
+            }
+        }
 
         if (usuario == null) {
             System.out.println("Usuário não encontrado.");
             return;
         }
 
+
         System.out.print("ID da categoria: ");
         int idCategoria = scanner.nextInt();
         scanner.nextLine();
 
-        Categoria categoria = categorias.stream()
-                .filter(c -> c.getId() == idCategoria)
-                .findFirst()
-                .orElse(null);
+        Categoria categoria = null;
+        for (Categoria c : categorias) {
+            if (c.getId() == idCategoria) {
+                categoria = c;
+                break;
+            }
+        }
 
         if (categoria == null) {
             System.out.println("Categoria não encontrada.");
@@ -141,15 +158,19 @@ public class Sistema {
         }
 
         System.out.print("Valor da transação: ");
-        double valor;
-        try {
-            valor = scanner.nextDouble();
-        } catch (Exception e) {
-            System.out.println("Valor inválido. Insira um número.");
-            scanner.nextLine();
-            return;
+        double valor = -1;
+        while (valor < 0) {
+            if (scanner.hasNextDouble()) {
+                valor = scanner.nextDouble();
+                if (valor <= 0) {
+                    System.out.println("Por favor, insira um valor positivo.");
+                }
+            } else {
+                System.out.println("Valor inválido. Insira um número.");
+                scanner.nextLine();
+            }
         }
-        scanner.nextLine();
+
 
         System.out.print("Tipo da transação (Receita/Despesa): ");
         String tipo = scanner.nextLine();

@@ -1,6 +1,7 @@
-package Conta;
+package Conta.contas;
 
-// Conta Corrente usando a estratégia específica
+import Conta.strategy.StrategyContaCorrente;
+
 public class ContaCorrente extends Conta {
     public ContaCorrente(double saldoInicial) {
         super(new StrategyContaCorrente(saldoInicial));

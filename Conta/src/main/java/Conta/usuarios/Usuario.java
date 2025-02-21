@@ -1,4 +1,6 @@
-package Conta;
+package Conta.usuarios;
+import Conta.contas.Conta;
+import Conta.transacoes.Transacao;
 
 import java.util.ArrayList;
 import java.util.List;
