@@ -18,7 +18,6 @@ public class Usuario implements RetornarTexto {
       this.senha = senha;
       this.conta = conta;
       this.transacoes = new ArrayList<>();
-
    }
 
    public int getId(){
@@ -41,16 +40,16 @@ public class Usuario implements RetornarTexto {
       return this.senha.equals(senhaDigitada);
    }
 
-   public void adicionarTransacao (Transacao transacao) {
+   public void adicionarTransacao(Transacao transacao) {
       transacoes.add(transacao);
    }
 
-
-
+   public List<Transacao> getTransacoes() {
+      return transacoes;
+   }
 
    @Override
    public String toString() {
-      return "ID: " + id + ", NOME:" + nome + ", Email " + email;
+      return "ID: " + id + ", NOME: " + nome + ", Email: " + email;
    }
-
 }

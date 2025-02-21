@@ -22,34 +22,11 @@ public class Transacao {
     }
 
     public void processarTransacao() {
-        if(tipo.equalsIgnoreCase("Receita")) {
+        if (tipo.equalsIgnoreCase("Receita")) {
             usuario.getConta().adicionarSaldo(valor);
-        } else if (tipo.equalsIgnoreCase("despesa")) {
+        } else if (tipo.equalsIgnoreCase("Despesa")) {
             usuario.getConta().debitarSaldo(valor);
         }
-
-        System.out.println("Saldo atual de " + usuario.getNome() + ": R$ " + usuario.getConta().getSaldo());
-
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
     }
 
     public int getId() {
@@ -72,17 +49,21 @@ public class Transacao {
         return categoria;
     }
 
-
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        String tipoConta = usuario.getConta() instanceof ContaCorrente ? "Conta Corrente" : "Conta Poupança";
+
         return "Transacao{" +
                 "id=" + id +
                 ", valor=" + valor +
                 ", tipo='" + tipo + '\'' +
                 ", usuario=" + usuario.getNome() +
                 ", categoria=" + categoria.getTipo() +
+                ", tipoConta=" + tipoConta +
                 ", dataHora: " + dtHora.format(formatter) +
-                 "}";
+                "}";
     }
+
 }
