@@ -1,15 +1,8 @@
 package Conta.categorias;
 
-import Conta.sistema.GeradorId;
-
 public class Categoria {
     private int id;
     private String nome;
-
-    public Categoria(String nome) {
-        this.id = new GeradorId().gerarId(); // Gera um id único
-        this.nome = nome;
-    }
 
     public Categoria(int id, String nome) {
         this.id = id;
@@ -18,6 +11,10 @@ public class Categoria {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -30,6 +27,6 @@ public class Categoria {
 
     @Override
     public String toString() {
-        return "ID: " + id + ", Nome: " + nome;
+        return "Categoria{id=" + id + ", nome='" + nome + "'}";
     }
 }

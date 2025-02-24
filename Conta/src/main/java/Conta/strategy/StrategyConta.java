@@ -1,7 +1,8 @@
 package Conta.strategy;
 
+import Conta.contas.Conta;
+
+
 public interface StrategyConta {
-    void adicionarSaldo(double valor);
-    void debitarSaldo(double valor);
-    double getSaldo();
+    void alterarSaldo(Conta conta, double valor);
 }

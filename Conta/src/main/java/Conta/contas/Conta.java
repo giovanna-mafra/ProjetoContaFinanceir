@@ -1,15 +1,14 @@
 package Conta.contas;
 
-public class Conta {
+public abstract class Conta {
     private double saldo;
 
     public Conta(double saldoInicial) {
         this.saldo = saldoInicial;
     }
 
-    public String getTipoConta() {
-        return "Tipo de Conta Desconhecido";
-    }
+
+    public abstract String getTipoConta();
 
     public void adicionarSaldo(double valor) {
         saldo += valor;

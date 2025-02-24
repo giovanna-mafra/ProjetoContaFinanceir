@@ -1,6 +1,7 @@
 package Conta.usuarios;
 
 import Conta.contas.Conta;
+import Conta.enums.TipoContaEnum;
 import Conta.sistema.GeradorId;
 
 public class Usuario {
@@ -8,38 +9,56 @@ public class Usuario {
    private String nome;
    private String email;
    private String senha;
+   private TipoContaEnum tipoConta;
    private Conta conta;
 
-   public Usuario(String nome, String email, String senha) {
-      this.id = new GeradorId().gerarId(); // Gerando um ID único
+   public Usuario(String nome, String email, String senha, TipoContaEnum tipoConta) {
+      this.id = new GeradorId().gerarId();  // Gerando o ID
       this.nome = nome;
       this.email = email;
       this.senha = senha;
-      this.conta = null;
-   }
-
-   public Usuario(int id, String nome, String email, String senha, Conta conta) {
-      this.id = id;
-      this.nome = nome;
-      this.email = email;
-      this.senha = senha;
-      this.conta = conta;
+      this.tipoConta = tipoConta;
+      this.conta = null;  // Inicializa sem uma conta
    }
 
    public int getId() {
       return id;
    }
 
+   public void setId(int id) {
+      this.id = id;
+   }
+
    public String getNome() {
       return nome;
+   }
+
+   public void setNome(String nome) {
+      this.nome = nome;
    }
 
    public String getEmail() {
       return email;
    }
 
+   public void setEmail(String email) {
+      this.email = email;
+   }
+
    public String getSenha() {
       return senha;
+   }
+
+   public void setSenha(String senha) {
+      this.senha = senha;
+   }
+
+   public TipoContaEnum getTipoConta() {
+      return tipoConta;
+   }
+
+   public void setTipoConta(TipoContaEnum tipoConta) {
+      this.tipoConta = tipoConta;
    }
 
    public Conta getConta() {
@@ -52,8 +71,6 @@ public class Usuario {
 
    @Override
    public String toString() {
-      String tipoConta = conta != null ? conta.getTipoConta() : "Conta Desconhecida";
-
-      return "ID: " + id + ", Nome: " + nome + ", Email: " + email + ", Tipo de Conta: " + tipoConta + ", Saldo: R$ " + (conta != null ? conta.getSaldo() : "0.00");
+      return "Categoria{id=" + id + ", nome='" + nome + "'}";
    }
 }

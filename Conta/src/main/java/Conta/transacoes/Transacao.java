@@ -1,47 +1,37 @@
 package Conta.transacoes;
 
-import Conta.contas.ContaCorrente;
 import Conta.usuarios.Usuario;
 import Conta.categorias.Categoria;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.math.BigDecimal;
 
 public class Transacao {
     private int id;
-    private double valor;
-    private String tipo;
+    private BigDecimal valor;
+    private String tipo;  // Exemplo: "Receita" ou "Despesa"
     private Usuario usuario;
     private Categoria categoria;
-    private LocalDateTime dtHora;
 
-    public Transacao(int id, double valor, String tipo, Usuario usuario, Categoria categoria) {
+    public Transacao(int id, BigDecimal valor, String tipo, Usuario usuario, Categoria categoria) {
         this.id = id;
         this.valor = valor;
         this.tipo = tipo;
         this.usuario = usuario;
         this.categoria = categoria;
-        this.dtHora = LocalDateTime.now();
-        processarTransacao();
-    }
-
-    public void processarTransacao() {
-        if (tipo.equalsIgnoreCase("Receita")) {
-            usuario.getConta().adicionarSaldo(valor);
-        } else if (tipo.equalsIgnoreCase("Despesa")) {
-            usuario.getConta().debitarSaldo(valor);
-        }
     }
 
     public int getId() {
         return id;
     }
 
-    public double getValor() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
@@ -49,29 +39,28 @@ public class Transacao {
         return tipo;
     }
 
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     public Usuario getUsuario() {
         return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Categoria getCategoria() {
         return categoria;
     }
 
-    @Override
-    public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-
-        String tipoConta = usuario.getConta().getTipoConta();
-
-        return "Transacao{" +
-                "id=" + id +
-                ", valor=" + valor +
-                ", tipo='" + tipo + '\'' +
-                ", usuario=" + usuario.getNome() +
-                ", categoria=" + categoria.getNome() +
-                ", tipoConta=" + tipoConta +
-                ", dataHora: " + dtHora.format(formatter) +
-                "}";
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
+    @Override
+    public String toString() {
+        return "Transacao{id=" + id + ", valor=" + valor + ", tipo='" + tipo + "', usuario=" + usuario + ", categoria=" + categoria + "}";
+    }
 }
