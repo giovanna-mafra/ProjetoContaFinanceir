@@ -1,27 +1,35 @@
 package Conta.categorias;
 
+import Conta.sistema.GeradorId;
+
 public class Categoria {
     private int id;
-    private String tipo;
+    private String nome;
 
-    public Categoria(int id, String tipo) {
+    public Categoria(String nome) {
+        this.id = new GeradorId().gerarId(); // Gera um id único
+        this.nome = nome;
+    }
+
+    public Categoria(int id, String nome) {
         this.id = id;
-        this.tipo = tipo;
+        this.nome = nome;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     @Override
     public String toString() {
-        return "Categoria{" +
-                "id=" + id +
-                ", tipo='" + tipo + '\'' +
-                '}';
+        return "ID: " + id + ", Nome: " + nome;
     }
 }

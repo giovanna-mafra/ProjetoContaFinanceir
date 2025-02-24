@@ -1,27 +1,22 @@
 package Conta.sistema;
-
-import Conta.usuarios.Usuario;
-
-import Conta.categorias.Categoria;
 import Conta.contas.Conta;
+import Conta.contas.ContaCorrente;
+import Conta.contas.ContaPoupanca;
+import Conta.usuarios.Usuario;
+import Conta.categorias.Categoria;
 import Conta.transacoes.Transacao;
-import Conta.strategy.StrategyContaCorrente;
-import Conta.strategy.StrategyContaPoupanca;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Sistema {
-    private List<Usuario> usuarios;
-    private List<Categoria> categorias;
-    private List<Transacao> transacoes;
     private Scanner scanner;
+    private List<Usuario> usuarios = new ArrayList<>();
+    private List<Categoria> categorias = new ArrayList<>();
+    private List<Transacao> transacoes = new ArrayList<>();
 
     public Sistema() {
-        this.usuarios = new ArrayList<>();
-        this.categorias = new ArrayList<>();
-        this.transacoes = new ArrayList<>();
         this.scanner = new Scanner(System.in);
     }
 
@@ -29,36 +24,27 @@ public class Sistema {
         int opcao;
         do {
             System.out.println("\n=== MENU ===");
-            System.out.println("1. Cadastrar Usuário");
-            System.out.println("2. Cadastrar Categoria");
-            System.out.println("3. Criar Transação");
-            System.out.println("4. Listar Transações");
-            System.out.println("5. Listar Categorias");
-            System.out.println("6. Listar Usuários");
+            System.out.println("1. Cadastrar");
+            System.out.println("2. Listar");
+            System.out.println("3. Excluir");
+            System.out.println("4. Atualizar");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
-
             opcao = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcao) {
                 case 1:
-                    cadastrarUsuario();
+                    cadastrar();
                     break;
                 case 2:
-                    cadastrarCategoria();
+                    listar();
                     break;
                 case 3:
-                    criarTransacao();
+                    excluir();
                     break;
                 case 4:
-                    listarTransacoes();
-                    break;
-                case 5:
-                    listarCategorias();
-                    break;
-                case 6:
-                    listarUsuarios();
+                    atualizar();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -69,6 +55,29 @@ public class Sistema {
         } while (opcao != 0);
     }
 
+    private void cadastrar() {
+        System.out.println("\nEscolha o que deseja cadastrar:");
+        System.out.println("1. Usuário");
+        System.out.println("2. Categoria");
+        System.out.println("3. Transação");
+        int escolha = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (escolha) {
+            case 1:
+                cadastrarUsuario();
+                break;
+            case 2:
+                cadastrarCategoria();
+                break;
+            case 3:
+                cadastrarTransacao();
+                break;
+            default:
+                System.out.println("Opção inválida!");
+        }
+    }
+
     private void cadastrarUsuario() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
@@ -77,149 +86,269 @@ public class Sistema {
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
 
-
-        System.out.println("Escolha o tipo de conta:");
-        System.out.println("1. Conta Corrente");
-        System.out.println("2. Conta Poupança");
-        System.out.print("Escolha uma opção: ");
+        Usuario usuario = new Usuario(nome, email, senha);
+        System.out.print("Escolha o tipo de conta (1. Conta Corrente / 2. Conta Poupanca): ");
         int tipoConta = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.print("Saldo inicial da conta: ");
-        double saldoInicial = scanner.nextDouble();
-        scanner.nextLine();
-
-        Conta conta = null;
         if (tipoConta == 1) {
-            conta = new Conta(new StrategyContaCorrente(saldoInicial));
+            Conta conta = new ContaCorrente(0);
+            usuario.setConta(conta);
         } else if (tipoConta == 2) {
-            conta = new Conta(new StrategyContaPoupanca(saldoInicial));
-        } else {
-            System.out.println("Opção inválida! Conta Corrente será selecionada por padrão.");
-            conta = new Conta(new StrategyContaCorrente(saldoInicial));
+            Conta conta = new ContaPoupanca(0);
+            usuario.setConta(conta);
         }
 
-        Usuario usuario = new Usuario(usuarios.size() + 1, nome, email, senha, conta);
         usuarios.add(usuario);
         System.out.println("Usuário cadastrado com sucesso!");
     }
 
 
-
-
-
     private void cadastrarCategoria() {
         System.out.print("Nome da categoria: ");
         String nomeCategoria = scanner.nextLine();
-        Categoria categoria = new Categoria(categorias.size() + 1, nomeCategoria);
+        int idCategoria = new GeradorId().gerarId();
+        Categoria categoria = new Categoria(idCategoria, nomeCategoria);
         categorias.add(categoria);
         System.out.println("Categoria cadastrada com sucesso!");
     }
 
-    private void criarTransacao() {
-        if (usuarios.isEmpty() || categorias.isEmpty()) {
-            System.out.println("Cadastre pelo menos um usuário e uma categoria antes de criar uma transação.");
-            return;
-        }
-
+    private void cadastrarTransacao() {
         System.out.print("ID do usuário: ");
         int idUsuario = scanner.nextInt();
         scanner.nextLine();
-
-        Usuario usuario = null;
-        for (Usuario u : usuarios) {
-            if (u.getId() == idUsuario) {
-                usuario = u;
-                break;
-            }
-        }
-
-        if (usuario == null) {
-            System.out.println("Usuário não encontrado.");
-            return;
-        }
-
-
         System.out.print("ID da categoria: ");
         int idCategoria = scanner.nextInt();
         scanner.nextLine();
-
-        Categoria categoria = null;
-        for (Categoria c : categorias) {
-            if (c.getId() == idCategoria) {
-                categoria = c;
-                break;
-            }
-        }
-
-        if (categoria == null) {
-            System.out.println("Categoria não encontrada.");
-            return;
-        }
-
-        System.out.print("Valor da transação: ");
-        double valor = -1;
-        while (valor < 0) {
-            if (scanner.hasNextDouble()) {
-                valor = scanner.nextDouble();
-                if (valor <= 0) {
-                    System.out.println("Por favor, insira um valor positivo.");
-                }
-            } else {
-                System.out.println("Valor inválido. Insira um número.");
-                scanner.nextLine();
-            }
-        }
-
-
+        System.out.print("Valor: ");
+        double valor = scanner.nextDouble();
+        scanner.nextLine();
         System.out.print("Tipo da transação (Receita/Despesa): ");
         String tipo = scanner.nextLine();
 
-        if (!tipo.equalsIgnoreCase("Receita") && !tipo.equalsIgnoreCase("Despesa")) {
-            System.out.println("Tipo de transação inválido.");
-            return;
-        }
+        Usuario usuario = encontrarUsuarioPorId(idUsuario);
+        Categoria categoria = encontrarCategoriaPorId(idCategoria);
 
-        Transacao transacao = new Transacao(transacoes.size() + 1, valor, tipo, usuario, categoria);
-        usuario.adicionarTransacao(transacao);
-        transacoes.add(transacao);
-
-        System.out.println("Transação criada com sucesso!");
-    }
-
-    public void listarTransacoes() {
-        if (transacoes.isEmpty()) {
-            System.out.println("Nenhuma transação cadastrada.");
-            return;
-        }
-
-        System.out.println("\n=== LISTA DE TRANSAÇÕES ===");
-        for (Transacao transacao : transacoes) {
-            System.out.println(transacao);
+        if (usuario != null && categoria != null) {
+            Transacao transacao = new Transacao(idUsuario, valor, tipo, usuario, categoria);
+            transacoes.add(transacao);
+            System.out.println("Transação criada com sucesso!");
+        } else {
+            System.out.println("Usuário ou categoria não encontrados!");
         }
     }
 
-    public void listarCategorias() {
-        if (categorias.isEmpty()) {
-            System.out.println("Nenhuma categoria cadastrada.");
-            return;
-        }
+    private void listar() {
+        System.out.println("\nEscolha o que deseja listar:");
+        System.out.println("1. Usuários");
+        System.out.println("2. Categorias");
+        System.out.println("3. Transações");
+        int escolha = scanner.nextInt();
+        scanner.nextLine();
 
-        System.out.println("\n=== LISTA DE CATEGORIAS ===");
-        for (Categoria categoria : categorias) {
-            System.out.println(categoria);
+        switch (escolha) {
+            case 1:
+                listarUsuarios();
+                break;
+            case 2:
+                listarCategorias();
+                break;
+            case 3:
+                listarTransacoes();
+                break;
+            default:
+                System.out.println("Opção inválida!");
         }
     }
 
-    public void listarUsuarios() {
+    private void listarUsuarios() {
         if (usuarios.isEmpty()) {
             System.out.println("Nenhum usuário cadastrado.");
-            return;
+        } else {
+            System.out.println("Listando usuários:");
+            for (Usuario usuario : usuarios) {
+                System.out.println(usuario);
+            }
+        }
+    }
+
+    private void listarCategorias() {
+        if (categorias.isEmpty()) {
+            System.out.println("Nenhuma categoria cadastrada.");
+        } else {
+            System.out.println("Listando categorias:");
+            for (Categoria categoria : categorias) {
+                System.out.println(categoria);
+            }
+        }
+    }
+
+    private void listarTransacoes() {
+        if (transacoes.isEmpty()) {
+            System.out.println("Nenhuma transação realizada.");
+        } else {
+            System.out.println("Listando transações:");
+            for (Transacao transacao : transacoes) {
+                System.out.println(transacao);
+            }
+        }
+    }
+
+    private void excluir() {
+        System.out.println("\nEscolha o que deseja excluir:");
+        System.out.println("1. Usuário");
+        System.out.println("2. Categoria");
+        System.out.println("3. Transação");
+        int escolha = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (escolha) {
+            case 1:
+                excluirUsuario();
+                break;
+            case 2:
+                excluirCategoria();
+                break;
+            case 3:
+                excluirTransacao();
+                break;
+            default:
+                System.out.println("Opção inválida!");
+        }
+    }
+
+    private void excluirUsuario() {
+        System.out.print("Informe o ID do usuário a ser excluído: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Usuario usuario = encontrarUsuarioPorId(id);
+
+        if (usuario != null) {
+            excluirTransacoesDoUsuario(usuario);
+
+            excluirCategoriasDoUsuario(usuario);
+
+            usuarios.remove(usuario);
+            System.out.println("Usuário com ID " + id + " e suas transações e categorias excluídos com sucesso!");
+        } else {
+            System.out.println("Usuário não encontrado!");
+        }
+    }
+
+
+    private void excluirTransacoesDoUsuario(Usuario usuario) {
+        List<Transacao> transacoesToRemove = new ArrayList<>();
+
+        for (Transacao transacao : transacoes) {
+            if (transacao.getUsuario().getId() == usuario.getId()) {
+                transacoesToRemove.add(transacao);
+            }
         }
 
-        System.out.println("\n=== LISTA DE USUÁRIOS ===");
-        for (Usuario usuario : usuarios) {
-            System.out.println(usuario);
+        for (Transacao transacao : transacoesToRemove) {
+            transacoes.remove(transacao);
         }
+    }
+
+    private void excluirCategoriasDoUsuario(Usuario usuario) {
+        List<Categoria> categoriasToRemove = new ArrayList<>();
+
+        for (Categoria categoria : categorias) {
+            if (categoria.getId() == usuario.getId()) {
+                categoriasToRemove.add(categoria);
+            }
+        }
+
+        for (Categoria categoria : categoriasToRemove) {
+            categorias.remove(categoria);
+        }
+    }
+    private void excluirCategoria() {
+        System.out.print("Informe o ID da categoria a ser excluída: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Categoria com ID " + id + " excluída com sucesso!");
+    }
+
+    private void excluirTransacao() {
+        System.out.print("Informe o ID da transação a ser excluída: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Transação com ID " + id + " excluída com sucesso!");
+    }
+
+    private void atualizar() {
+        System.out.println("\nEscolha o que deseja atualizar:");
+        System.out.println("1. Usuário");
+        System.out.println("2. Categoria");
+        System.out.println("3. Transação");
+        int escolha = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (escolha) {
+            case 1:
+                atualizarUsuario();
+                break;
+            case 2:
+                atualizarCategoria();
+                break;
+            case 3:
+                atualizarTransacao();
+                break;
+            default:
+                System.out.println("Opção inválida!");
+        }
+    }
+
+    private void atualizarUsuario() {
+        System.out.print("Informe o ID do usuário a ser atualizado: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Informe o novo nome do usuário: ");
+        String nome = scanner.nextLine();
+
+        System.out.println("Usuário com ID " + id + " atualizado com sucesso!");
+    }
+
+    private void atualizarCategoria() {
+        System.out.print("Informe o ID da categoria a ser atualizada: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Informe o novo nome da categoria: ");
+        String nome = scanner.nextLine();
+
+        System.out.println("Categoria com ID " + id + " atualizada com sucesso!");
+    }
+
+    private void atualizarTransacao() {
+        System.out.print("Informe o ID da transação a ser atualizada: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Informe o novo valor da transação: ");
+        double valor = scanner.nextDouble();
+        scanner.nextLine();
+
+        System.out.println("Transação com ID " + id + " atualizada com sucesso!");
+    }
+
+    private Usuario encontrarUsuarioPorId(int id) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == id) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    private Categoria encontrarCategoriaPorId(int id) {
+        for (Categoria categoria : categorias) {
+            if (categoria.getId() == id) {
+                return categoria;
+            }
+        }
+        return null;
     }
 }

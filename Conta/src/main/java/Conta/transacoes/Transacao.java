@@ -15,7 +15,7 @@ public class Transacao {
     private Categoria categoria;
     private LocalDateTime dtHora;
 
-    public Transacao(int id, double valor, String tipo, Usuario usuario, Categoria categoria){
+    public Transacao(int id, double valor, String tipo, Usuario usuario, Categoria categoria) {
         this.id = id;
         this.valor = valor;
         this.tipo = tipo;
@@ -26,6 +26,11 @@ public class Transacao {
     }
 
     public void processarTransacao() {
+        if (usuario.getConta() == null) {
+            System.out.println("Erro: Usuário não possui conta associada.");
+            return;
+        }
+
         if (tipo.equalsIgnoreCase("Receita")) {
             usuario.getConta().adicionarSaldo(valor);
         } else if (tipo.equalsIgnoreCase("Despesa")) {
@@ -41,7 +46,11 @@ public class Transacao {
         return valor;
     }
 
-    public String getTipo(){
+    public void setValor(double valor) { // Método setValor adicionado
+        this.valor = valor;
+    }
+
+    public String getTipo() {
         return tipo;
     }
 
@@ -49,7 +58,7 @@ public class Transacao {
         return usuario;
     }
 
-    public Categoria getCategoria(){
+    public Categoria getCategoria() {
         return categoria;
     }
 
@@ -64,10 +73,9 @@ public class Transacao {
                 ", valor=" + valor +
                 ", tipo='" + tipo + '\'' +
                 ", usuario=" + usuario.getNome() +
-                ", categoria=" + categoria.getTipo() +
+                ", categoria=" + categoria.getNome() +
                 ", tipoConta=" + tipoConta +
                 ", dataHora: " + dtHora.format(formatter) +
                 "}";
     }
-
 }

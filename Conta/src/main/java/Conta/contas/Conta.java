@@ -2,38 +2,26 @@ package Conta.contas;
 import Conta.strategy.StrategyConta;
 
 public class Conta {
-    protected StrategyConta strategyConta;
+    private StrategyConta strategyConta;
 
-    public Conta(StrategyConta estrategiaConta) {
-        if (estrategiaConta == null) {
-            System.out.println("Erro: A estratégia da conta não foi definida corretamente.");
-        } else {
-            this.strategyConta = estrategiaConta;
-        }
+    public Conta(StrategyConta strategyConta) {
+        this.strategyConta = strategyConta;
+
     }
 
     public void adicionarSaldo(double valor) {
-        if (strategyConta != null) {
-            strategyConta.adicionarSaldo(valor);
-        } else {
-            System.out.println("Erro: A estratégia de conta não foi inicializada corretamente.");
-        }
+        strategyConta.adicionarSaldo(valor);
     }
 
     public void debitarSaldo(double valor) {
-        if (strategyConta != null) {
-            strategyConta.debitarSaldo(valor);
-        } else {
-            System.out.println("Erro: A estratégia de conta não foi inicializada corretamente.");
-        }
+       strategyConta.debitarSaldo(valor);
     }
 
     public double getSaldo() {
-        if (strategyConta != null) {
-            return strategyConta.getSaldo();
-        } else {
-            System.out.println("Erro: A estratégia de conta não foi inicializada corretamente.");
-            return 0.0;
-        }
+        return strategyConta.getSaldo();
+    }
+
+    public StrategyConta getStrategyConta() {
+        return strategyConta;
     }
 }
