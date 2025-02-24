@@ -87,16 +87,29 @@ public class Sistema {
         String senha = scanner.nextLine();
 
         Usuario usuario = new Usuario(nome, email, senha);
-        System.out.print("Escolha o tipo de conta (1. Conta Corrente / 2. Conta Poupanca): ");
+
+        System.out.println("Escolha o tipo de conta:");
+        System.out.println("1. Conta Corrente");
+        System.out.println("2. Conta Poupança");
         int tipoConta = scanner.nextInt();
         scanner.nextLine();
 
         if (tipoConta == 1) {
-            Conta conta = new ContaCorrente(0);
-            usuario.setConta(conta);
+            System.out.print("Informe o saldo inicial da Conta Corrente: ");
+            double saldoInicial = scanner.nextDouble();
+            scanner.nextLine();
+            ContaCorrente contaCorrente = new ContaCorrente(saldoInicial);
+            usuario.setConta(contaCorrente);
         } else if (tipoConta == 2) {
-            Conta conta = new ContaPoupanca(0);
-            usuario.setConta(conta);
+
+            System.out.print("Informe o saldo inicial da Conta Poupança: ");
+            double saldoInicial = scanner.nextDouble();
+            scanner.nextLine();
+            ContaPoupanca contaPoupanca = new ContaPoupanca(saldoInicial);
+            usuario.setConta(contaPoupanca);
+        } else {
+            System.out.println("Tipo de conta inválido!");
+            return;
         }
 
         usuarios.add(usuario);
@@ -105,38 +118,69 @@ public class Sistema {
 
 
     private void cadastrarCategoria() {
-        System.out.print("Nome da categoria: ");
-        String nomeCategoria = scanner.nextLine();
-        int idCategoria = new GeradorId().gerarId();
-        Categoria categoria = new Categoria(idCategoria, nomeCategoria);
-        categorias.add(categoria);
-        System.out.println("Categoria cadastrada com sucesso!");
+        System.out.print("Informe seu ID de usuário: ");
+        int idUsuario = scanner.nextInt();
+        scanner.nextLine();
+
+        Usuario usuario = encontrarUsuarioPorId(idUsuario);
+        if (usuario != null) {
+
+            System.out.print("Informe sua senha para confirmar o cadastro: ");
+            String senha = scanner.nextLine();
+
+            if (usuario.getSenha().equals(senha)) {
+                System.out.print("Nome da categoria: ");
+                String nomeCategoria = scanner.nextLine();
+                int idCategoria = new GeradorId().gerarId();
+                Categoria categoria = new Categoria(idCategoria, nomeCategoria);
+                categorias.add(categoria);
+                System.out.println("Categoria cadastrada com sucesso!");
+            } else {
+                System.out.println("Senha incorreta. Cadastro de categoria cancelado.");
+            }
+        } else {
+            System.out.println("Usuário não encontrado. Cadastro de categoria cancelado.");
+        }
     }
 
     private void cadastrarTransacao() {
-        System.out.print("ID do usuário: ");
+        System.out.print("Informe seu ID de usuário: ");
         int idUsuario = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("ID da categoria: ");
-        int idCategoria = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Valor: ");
-        double valor = scanner.nextDouble();
-        scanner.nextLine();
-        System.out.print("Tipo da transação (Receita/Despesa): ");
-        String tipo = scanner.nextLine();
 
         Usuario usuario = encontrarUsuarioPorId(idUsuario);
-        Categoria categoria = encontrarCategoriaPorId(idCategoria);
+        if (usuario != null) {
 
-        if (usuario != null && categoria != null) {
-            Transacao transacao = new Transacao(idUsuario, valor, tipo, usuario, categoria);
-            transacoes.add(transacao);
-            System.out.println("Transação criada com sucesso!");
+            System.out.print("Informe sua senha para confirmar a transação: ");
+            String senha = scanner.nextLine();
+
+            if (usuario.getSenha().equals(senha)) {
+                System.out.print("ID da categoria: ");
+                int idCategoria = scanner.nextInt();
+                scanner.nextLine();
+                System.out.print("Valor: ");
+                double valor = scanner.nextDouble();
+                scanner.nextLine();
+                System.out.print("Tipo da transação (Receita/Despesa): ");
+                String tipo = scanner.nextLine();
+
+                Categoria categoria = encontrarCategoriaPorId(idCategoria);
+                if (categoria != null) {
+                    Transacao transacao = new Transacao(idUsuario, valor, tipo, usuario, categoria);
+                    transacoes.add(transacao);
+                    System.out.println("Transação criada com sucesso!");
+                } else {
+                    System.out.println("Categoria não encontrada. Transação não realizada.");
+                }
+            } else {
+                System.out.println("Senha incorreta. Cadastro de transação cancelado.");
+            }
         } else {
-            System.out.println("Usuário ou categoria não encontrados!");
+            System.out.println("Usuário não encontrado. Transação não realizada.");
         }
     }
+
+
 
     private void listar() {
         System.out.println("\nEscolha o que deseja listar:");

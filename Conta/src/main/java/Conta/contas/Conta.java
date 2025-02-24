@@ -1,27 +1,25 @@
 package Conta.contas;
-import Conta.strategy.StrategyConta;
 
 public class Conta {
-    private StrategyConta strategyConta;
+    private double saldo;
 
-    public Conta(StrategyConta strategyConta) {
-        this.strategyConta = strategyConta;
+    public Conta(double saldoInicial) {
+        this.saldo = saldoInicial;
+    }
 
+    public String getTipoConta() {
+        return "Tipo de Conta Desconhecido";
     }
 
     public void adicionarSaldo(double valor) {
-        strategyConta.adicionarSaldo(valor);
+        saldo += valor;
     }
 
     public void debitarSaldo(double valor) {
-       strategyConta.debitarSaldo(valor);
+        saldo -= valor;
     }
 
     public double getSaldo() {
-        return strategyConta.getSaldo();
-    }
-
-    public StrategyConta getStrategyConta() {
-        return strategyConta;
+        return saldo;
     }
 }

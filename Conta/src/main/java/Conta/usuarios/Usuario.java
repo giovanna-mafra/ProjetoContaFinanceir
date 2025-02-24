@@ -10,9 +10,8 @@ public class Usuario {
    private String senha;
    private Conta conta;
 
-
    public Usuario(String nome, String email, String senha) {
-      this.id = new GeradorId().gerarId();
+      this.id = new GeradorId().gerarId(); // Gerando um ID único
       this.nome = nome;
       this.email = email;
       this.senha = senha;
@@ -53,6 +52,8 @@ public class Usuario {
 
    @Override
    public String toString() {
-      return "ID: " + id + ", Nome: " + nome + ", Email: " + email;
+      String tipoConta = conta != null ? conta.getTipoConta() : "Conta Desconhecida";
+
+      return "ID: " + id + ", Nome: " + nome + ", Email: " + email + ", Tipo de Conta: " + tipoConta + ", Saldo: R$ " + (conta != null ? conta.getSaldo() : "0.00");
    }
 }

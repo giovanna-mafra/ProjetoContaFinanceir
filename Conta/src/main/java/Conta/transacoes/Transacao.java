@@ -26,11 +26,6 @@ public class Transacao {
     }
 
     public void processarTransacao() {
-        if (usuario.getConta() == null) {
-            System.out.println("Erro: Usuário não possui conta associada.");
-            return;
-        }
-
         if (tipo.equalsIgnoreCase("Receita")) {
             usuario.getConta().adicionarSaldo(valor);
         } else if (tipo.equalsIgnoreCase("Despesa")) {
@@ -46,7 +41,7 @@ public class Transacao {
         return valor;
     }
 
-    public void setValor(double valor) { // Método setValor adicionado
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
@@ -66,7 +61,7 @@ public class Transacao {
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-        String tipoConta = usuario.getConta() instanceof ContaCorrente ? "Conta Corrente" : "Conta Poupança";
+        String tipoConta = usuario.getConta().getTipoConta();
 
         return "Transacao{" +
                 "id=" + id +
@@ -78,4 +73,5 @@ public class Transacao {
                 ", dataHora: " + dtHora.format(formatter) +
                 "}";
     }
+
 }
