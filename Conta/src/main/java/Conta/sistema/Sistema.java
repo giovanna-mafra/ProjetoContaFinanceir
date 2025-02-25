@@ -1,14 +1,12 @@
 package Conta.sistema;
 
 import Conta.contas.Conta;
-import Conta.contas.ContaCorrente;
-import Conta.contas.ContaPoupanca;
 import Conta.usuarios.Usuario;
 import Conta.categorias.Categoria;
 import Conta.transacoes.Transacao;
 import Conta.enums.TipoContaEnum;
 import Conta.strategy.StrategyConta;
-import Conta.sistema.GeradorId;
+
 import java.math.BigDecimal;
 
 
@@ -27,15 +25,11 @@ public class Sistema {
     }
 
     public void realizarOperacao(Usuario usuario, double valor) {
-
         StrategyConta estrategia = usuario.getTipoConta().criarEstrategia();
-
-
         estrategia.alterarSaldo(usuario.getConta(), valor);
-
-
         System.out.println("Saldo após operação para " + usuario.getNome() + ": R$ " + usuario.getConta().getSaldo());
     }
+
 
     public void menu() {
         int opcao;
@@ -109,12 +103,23 @@ public class Sistema {
         int tipoConta = scanner.nextInt();
         scanner.nextLine();
 
+        System.out.print("Informe o saldo inicial: R$ ");
+        double saldoInicial = scanner.nextDouble();
+        scanner.nextLine();
+
         TipoContaEnum tipoContaEnum = (tipoConta == 1) ? TipoContaEnum.CORRENTE : TipoContaEnum.POUPANCA;
 
         Usuario usuario = new Usuario(nome, email, senha, tipoContaEnum);
+
+        Conta conta = new Conta(saldoInicial, tipoContaEnum);
+        usuario.setConta(conta);
+
         usuarios.add(usuario);
         System.out.println("Usuário criado: " + usuario);
     }
+
+
+
 
     private void cadastrarCategoria() {
         System.out.print("Informe seu ID de usuário: ");
@@ -169,6 +174,13 @@ public class Sistema {
                 if (categoria != null) {
                     Transacao transacao = new Transacao(idUsuario, valorTransacao, tipo, usuario, categoria);
                     transacoes.add(transacao);
+
+                    if (tipo.equalsIgnoreCase("Receita")) {
+                        realizarOperacao(usuario, valor);
+                    } else if (tipo.equalsIgnoreCase("Despesa")) {
+                        realizarOperacao(usuario, -valor);
+                    }
+
                     System.out.println("Transação criada com sucesso!");
                 } else {
                     System.out.println("Categoria não encontrada. Transação não realizada.");
@@ -180,6 +192,7 @@ public class Sistema {
             System.out.println("Usuário não encontrado. Transação não realizada.");
         }
     }
+
 
     private void listar() {
         System.out.println("\nEscolha o que deseja listar:");
@@ -210,10 +223,11 @@ public class Sistema {
         } else {
             System.out.println("Listando usuários:");
             for (Usuario usuario : usuarios) {
-                System.out.println(usuario);
+                System.out.println(usuario + " - Saldo: R$ " + usuario.getConta().getSaldo());
             }
         }
     }
+
 
     private void listarCategorias() {
         if (categorias.isEmpty()) {

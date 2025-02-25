@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class Transacao {
     private int id;
     private BigDecimal valor;
-    private String tipo;  // Exemplo: "Receita" ou "Despesa"
+    private String tipo;
     private Usuario usuario;
     private Categoria categoria;
 
@@ -23,41 +23,13 @@ public class Transacao {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 
     public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
 
     @Override
     public String toString() {

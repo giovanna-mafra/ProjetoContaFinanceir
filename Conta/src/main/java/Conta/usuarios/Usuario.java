@@ -13,21 +13,18 @@ public class Usuario {
    private Conta conta;
 
    public Usuario(String nome, String email, String senha, TipoContaEnum tipoConta) {
-      this.id = new GeradorId().gerarId();  // Gerando o ID
+      this.id = new GeradorId().gerarId();
       this.nome = nome;
       this.email = email;
       this.senha = senha;
       this.tipoConta = tipoConta;
-      this.conta = null;  // Inicializa sem uma conta
+      this.conta = null;
    }
 
    public int getId() {
       return id;
    }
 
-   public void setId(int id) {
-      this.id = id;
-   }
 
    public String getNome() {
       return nome;
@@ -37,28 +34,12 @@ public class Usuario {
       this.nome = nome;
    }
 
-   public String getEmail() {
-      return email;
-   }
-
-   public void setEmail(String email) {
-      this.email = email;
-   }
-
    public String getSenha() {
       return senha;
    }
 
-   public void setSenha(String senha) {
-      this.senha = senha;
-   }
-
    public TipoContaEnum getTipoConta() {
       return tipoConta;
-   }
-
-   public void setTipoConta(TipoContaEnum tipoConta) {
-      this.tipoConta = tipoConta;
    }
 
    public Conta getConta() {
