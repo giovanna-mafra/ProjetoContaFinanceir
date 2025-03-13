@@ -1,6 +1,6 @@
-package Conta.strategy;
+package conta.strategy;
 
-import Conta.contas.Conta;
+import conta.contas.Conta;
 
 public interface StrategyConta {
     void alterarSaldo(Conta conta, double valor);

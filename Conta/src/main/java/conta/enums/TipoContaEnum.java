@@ -1,8 +1,8 @@
-package Conta.enums;
+package conta.enums;
 
-import Conta.strategy.StrategyConta;
-import Conta.strategy.impl.StrategyCorrente;
-import Conta.strategy.impl.StrategyPoupanca;
+import conta.strategy.StrategyConta;
+import conta.strategy.impl.StrategyCorrente;
+import conta.strategy.impl.StrategyPoupanca;
 
 public enum TipoContaEnum {
     CORRENTE {
